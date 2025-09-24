@@ -8,6 +8,15 @@ import tempfile
 import psutil
 import gc
 import sv_ttk
+import sys
+
+def resource_path(relative_path):
+    """ Retorna o caminho absoluto para o recurso, funciona para dev e para PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 def cpu_stress_worker():
     """Função que executa o cálculo pesado para estressar um núcleo de CPU."""
@@ -19,11 +28,9 @@ class StressTestApp:
         self.root = root
         self.root.title("Ferramenta de Teste de Estresse v1.0")
         self.root.geometry("450x420")
-        self.root.iconbitmap('cpu.ico')
+        self.root.iconbitmap(resource_path('cpu.ico'))
         self.root.resizable(False, False)
 
-        # NOVO: Ativar o tema dark. Esta é a linha mágica!
-        # Coloque-a logo após criar a janela principal.
         sv_ttk.set_theme("dark")
 
         # Variáveis de estado
